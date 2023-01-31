@@ -1,0 +1,193 @@
+mixin rhombus()
+    .rhombs
+        .rhombs__rhombs-platform
+            each _ in Array(4)
+                .rhomb
+                
+mixin contacts(typeName, className, titleName, bodyName, second = null)
+    article(class=`${className}`)
+        div(class=`${className}-platform`)
+            h4 #{titleName}
+            if typeName == 'paragraph'
+                p.
+                    #{bodyName}
+            else
+                div(class=`${typeName}s-group`)
+                    if typeName == 'link'
+                        a(href=`tel:${bodyName}`) #{bodyName}
+                        a(href=`tel:${second}`) #{second}
+                    else if typeName == 'span'
+                        span #{bodyName}
+                        span #{second}
+                        
+mixin features(className, imgBody, titleName, bodyName)
+    - counter++
+    article(class=`${className}`)
+        .feature-header
+            img(src=`img/${imgBody}.svg` alt="")
+            h2 #{titleName}
+        .feature-description
+            p.
+                #{bodyName}
+        if counter != 3
+            +rhombus()
+            
+mixin arrow()
+    svg(width="12" height="22" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg")
+        path(d="M12 3.85547L4.5 11.3555L12 18.8555L10.5 21.8555L0 11.3555L10.5 0.855469L12 3.85547Z" fill="#ffffff")
+
+mixin service(className, imgBody, titleName, bodyName)
+    article(class=`${className}`)
+        img(src=`img/${imgBody}.svg` alt="")
+        h3 #{titleName}
+        p.
+            #{bodyName}
+        button.more подробнее
+
+mixin localSlider(className, imgName, description)
+    img(class=`${className}` src=`img/${imgName}.png` alt="")
+    div(class=`${className}-description`)
+        .description-platform
+            .left-arrow
+                +arrow()
+            p.
+                #{description}
+            .right-arrow
+                +arrow()
+
+mixin menuList()
+    ul.menu-list
+        each linksName in headerLinks
+            li
+                a(href="/") #{linksName}
+
+doctype html
+html(lang="ru")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet" href="css/style.css")
+    body
+        header.page-header
+            - let headerLinks = ['Главная', 'Оклейка автомобилей', 'Детейлинг автомобилей', 'Галерея работ']
+            nav.page-header__menu
+                +menuList()
+            .page-header__burger-btn
+                .middle-strip
+        main.main-content
+            section.main-content__car-musc
+                .central-block
+                    h1 car musc
+                    +rhombus()
+                    p.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vitae orci urna amet penatibus.
+                    .btn-place
+                        button.our-services-btn#our-services-btn Наши услуги
+            section.main-content__contacts
+                +contacts('paragraph', 'address', 'адрес:', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit')
+                +contacts('link', 'phone', 'телефон:', '8 (812) 123-45-67', '8-911-123-45-67')
+                +contacts('span', 'work-mode', 'режим работы:', 'пн-пт : 10:00 - 20:00', 'сб-вск : 12:00 - 20:00')
+            section.main-content__our-achievements
+                article.description
+                    h2 наши достижения от кубка россии до чемпионатов мира
+                    +rhombus()
+                    p.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitant tincidunt aliquam tincidunt pretium sodales. Tristique odio pellentesque et tincidunt posuere arcu purus lobortis risus. Urna, ut amet odio orci magnis praesent ultrices. Praesent malesuada lacus tellus tristique sit at. Sed viverra nulla nam arcu, non iaculis pretium, volutpat.
+                article.digits
+                    - let digitsArray = ['1', '4', '6', '3', '2', '1', '1', 'img/cup.svg']
+                    each item, index in digitsArray
+                        .digit
+                            if index == 7
+                                img(class="cup" src=`${item}` alt="")
+                            else
+                                h3
+                                    span #
+                                    span #{item}
+                            p.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dui
+            section.main-content__slider
+                .slider-window
+                    .left-arrow
+                        +arrow()
+                    article.slider-body
+                        - let path = ['img/Rectangle-45.png', 'img/Rectangle-47.png', 'img/Rectangle-49.png']
+                        each item in path
+                            .slide
+                                img(src=`${item}` alt="")
+                                p.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vulputate laoreet sapien a sit ante.
+                    .right-arrow
+                        +arrow()
+            section.main-content__our-features
+                .features-body
+                    - let counter = 0
+                    +features('materials', 'Group-53', 'материалы от лучших компаний', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium, rutrum est, molestie proin tristique duis sed. Morbi suspendisse amet nisl vestibulum risus. Quis pretium')
+                    +features('masters', 'Group-52', 'опытные мастера', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et donec elementum egestas vitae ullamcorper. Amet volutpat ornare pharetra amet adipiscing orci, lectus aenean ultricies. Erat viverra eget blandit ornare. Molestie ipsum commodo faucibus rhoncus')
+                    +features('guarantee', 'Group-54', 'гарантия на все виды работы', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat.')
+                article.features-proofs
+                    +localSlider('proof-slide', 'Rectangle-52', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque auctor nibh feugiat est. Consectetur lectus.')
+            section.main-content__our-services
+                h2 наши услуги
+                +rhombus()
+                article.our-services
+                    .btns-platform
+                        button(class="services-btn pasting selected" id="pasting") оклейка
+                        button(class="services-btn detailing" id="detailing") детейлинг
+                    .selected-body
+                        +service('protective-film', 'Group-55', 'защитные пленки', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nascetur ultrices pellentesque vulputate sit. Ut feugiat.')
+                        +service('colored-film', 'Group-53', 'цветные пленки', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nascetur ultrices pellentesque vulputate sit. Ut feugiat.')
+                        +service('design', 'Group-52', 'дизайн', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nascetur ultrices pellentesque vulputate sit. Ut feugiat.')
+                        +service('interior-trim', 'Group-54', 'оклейка салона', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nascetur ultrices pellentesque vulputate sit. Ut feugiat.')
+            section.main-content__services-features
+                article.local-slider
+                    +localSlider('services-features-slide', 'Rectangle-52-1', 'Neque metus vitae urna purus aliquam. Felis nullam pellentesque ac mi commodo, amet, porta in. Dui.')
+                .services-features
+                    - counter = 0
+                    +features('polish', 'Group-55', '100% полироль axem', 'Pharetra in bibendum id id. Sit maecenas sollicitudin est, hendrerit in malesuada. Eu, et lacus nisi mus sagittis, rhoncus est dictum. Gravida lectus urna, arcu, sodales. Ac.')
+                    +features('TZ', 'Group-53', 'выполняем работу четко по тз', 'Lorem nulla non nibh quis elit odio. Dui et ultricies duis mattis dictum et senectus nunc sodales. Tellus lorem risus etiam quam massa lobortis convallis laoreet. Nec.')
+                    +features('masters', 'Group-52', 'у нас лучшие мастера', 'Posuere nam sodales ullamcorper bibendum justo maecenas at. Ultricies bibendum morbi tempor vehicula. Ultrices erat maecenas in id maecenas sed ipsum scelerisque.')
+            section.main-content__our-works
+                h2 наши работы
+                +rhombus()
+                article.photo-container
+                    - let photoCollection = ['Rectangle-56', 'Rectangle-57', 'Rectangle-58', 'Rectangle-59', 'Rectangle-60', 'Rectangle-61']
+                    - let row = 1
+                    - let photoIndex = 0
+                    each _, index in Array(18)
+                        if index == 6 || index == 12
+                            - row++
+                        
+                        if row != 2
+                            img(src=`img/${photoCollection[photoIndex]}.png` alt="")
+                            - photoIndex++
+                        else if row == 2
+                            - photoIndex--
+                            img(src=`img/${photoCollection[photoIndex]}.png` alt="")
+            section.main-content__question-form
+                h2 ответим на любой вопрос
+                +rhombus()
+                form(class='question-form' action="/" method="POST")
+                    .form-fields
+                        input(class="form-field username-field" type="text" id="username" name="username" placeholder="имя" autocomplete="off")
+                        input(class="form-field userphone-field" type="tel" id="userphone" name="userphone" placeholder="телефон" autocomplete="off")
+                    .question-area
+                        textarea(class="form-field question-field" placeholder="вопрос по дизайну, тюнингу и др.")
+                        .contact-links
+                            - let links = ['telegram', 'youtube', 'vk']
+                            each item in links
+                                a(class=`${item}-link` href="/")
+                                    img(src=`img/${item}.svg` alt="")
+                    .submiting-area
+                        button(class="question-form-submit-btn", type="submit", id="question-form-submit-btn") отправить
+                        .coordinates
+                            .location
+                                span Eu faucibus et rutrum fringilla orci nunc
+                            .phone-mail
+                                a(href="tel:8 (812) 123-45-67") 8 (812) 123-45-67
+                                a(href="mailto:test@test.ru") test@test.ru
+        footer.page-footer
+            .page-footer__central
+                span 2022 © Est et viverra pellentesque pharetra lorem proin in. Vitae magna at tempus commodo.
+                nav.page-footer__menu
+                    +menuList()
+                    
